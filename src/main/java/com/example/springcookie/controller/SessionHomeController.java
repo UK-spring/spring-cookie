@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 @Controller
 @RequiredArgsConstructor
@@ -45,5 +46,24 @@ public class SessionHomeController {
         // home 화면으로 이동
         return "session-home";
 
+    }
+
+    @GetMapping("/v2/session-home")
+    public String homeV2(
+            // Session이 필수값은 아니다. 로그인 했거나 안했거나 판별해야하니 required false
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser,
+            Model model
+    ) {
+
+        // session에 loginUser가 없으면 Login 페이지로 이동
+        if (loginUser == null) {
+            return "session-login";
+        }
+
+        // Session이 정상적으로 조회되면 로그인된것으로 간주
+        model.addAttribute("loginUser", loginUser);
+
+        // home 화면으로 이동
+        return "session-home";
     }
 }
