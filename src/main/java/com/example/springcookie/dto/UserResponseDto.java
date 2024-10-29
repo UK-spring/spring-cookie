@@ -5,9 +5,9 @@ import lombok.Getter;
 @Getter
 public class UserResponseDto {
     // 유저 식별자
-    private Long id;
+    private final Long id;
     // 유저 이름
-    private String name;
+    private final String name;
 
     public UserResponseDto(Long id, String name) {
         this.id = id;
